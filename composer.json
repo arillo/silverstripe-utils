@@ -1,0 +1,25 @@
+{
+    "name": "arillo/silverstripe-utils",
+    "description": "Utils and utils for SilverStripe CMS",
+    "type": "silverstripe-vendormodule",
+    "homepage": "https://github.com/arillo/silverstripe-utils",
+    "keywords": ["silverstripe", "utils", "utils"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastian Fischer",
+            "email": "sf@arillo.net"
+        }
+    ],
+    "extra": {
+        "installer-name": "utils"
+    },
+    "autoload": {
+        "psr-4": {
+            "Arillo\\Utils\\": "src/"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/arillo/silverstripe-utils/issues"
+    }
+}
