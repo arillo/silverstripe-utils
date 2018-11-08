@@ -67,7 +67,7 @@ Display a message in CMS (bootstrap alert style). E.g.:
 ```
 <?php
 use SilverStripe\CMS\Model\SiteTree;
-use Arillo\Utils\CMS;
+use Arillo\Utils\AlertField;
 
 class Page extends SiteTree
 {
