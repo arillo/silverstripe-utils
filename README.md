@@ -82,3 +82,31 @@ class Page extends SiteTree
     }
 }
 ```
+
+### Arillo\Utils\SortableDataObject
+
+Add this extension to a DataObject to make it sortable:
+
+```
+use SilverStripe\ORM\DataObject;
+use Arillo\Utils\SortableDataObject;
+
+class MyDataObject extends DataObject
+{
+    private static $extensions = [
+        SortableDataObject::class,
+    ];
+}
+```
+
+You can apply `GridFieldOrderableRows` to the managing `GridField` with the following helper function:
+
+```
+use Arillo\Utils\SortableDataObject;
+
+...
+..
+.
+
+SortableDataObject::make_gridfield_sortable($gridField);
+```
