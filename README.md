@@ -76,7 +76,7 @@ class MyDataObject extends DataObject
 
     public function getThumbnail()
     {
-        return CMS::cms_thumbnail($this->Image());
+        return CMS::thumbnail($this->Image());
     }
 }
 ```

@@ -37,7 +37,7 @@ class CMS
      * @param  int  $height
      * @return DBField
      */
-    public static function cms_thumbnail(
+    public static function thumbnail(
         Image $image,
         int $width = 90,
         int $height = 90
