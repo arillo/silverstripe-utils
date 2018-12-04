@@ -1,7 +1,9 @@
 <?php
 namespace Arillo\Utils;
 
+use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\ORM\FieldType\DBField;
 
 /**
  * CMS helper functions.
@@ -26,5 +28,27 @@ class CMS
         }
 
         return $actions;
+    }
+
+    /**
+     * Thumbnail for gridfield usage
+     * @param  Image  $image
+     * @param  int  $width
+     * @param  int  $height
+     * @return DBField
+     */
+    public static function cms_thumbnail(
+        Image $image,
+        int $width = 90,
+        int $height = 90
+    ) {
+        if ($image && $image->exists())
+        {
+            return DBField::create_field(
+                'HTMLText',
+                "<img src='{$image->Fill($width, $height)->getURL()}' />"
+            );
+        }
+        return '[no image]';
     }
 }

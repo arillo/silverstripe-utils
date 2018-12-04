@@ -43,7 +43,8 @@ SilverStripe\CMS\Model\SiteTree:
 
 ### Arillo\Utils\CMS
 
-Some unsorted functions (just one for now).
+Some unsorted functions.
+
 Remove campaign-related actions from Menu:
 
 ```
@@ -56,6 +57,26 @@ class Page extends SiteTree
     public function getCMSActions()
     {
         return CMS::remove_campaign_actions(parent::getCMSActions());
+    }
+}
+```
+
+Thumbnail helper function for gridfield usage:
+
+```
+<?php
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Assets\Image;
+use Arillo\Utils\CMS;
+
+class MyDataObject extends DataObject
+{
+    private static $has_one = [ 'Image' => Image::class ];
+    private static $summary_fields = [ 'Thumbnail' => 'Image' ];
+
+    public function getThumbnail()
+    {
+        return CMS::cms_thumbnail($this->Image());
     }
 }
 ```
@@ -110,3 +131,22 @@ use Arillo\Utils\SortableDataObject;
 
 SortableDataObject::make_gridfield_sortable($gridField);
 ```
+
+### Arillo\Utils\Env
+
+There are 3 global helper functions for template usage:
+
+```
+Is DEV: <% if $IsDev %>yes<% else %>no<% end_if %> <br>
+Is TEST: <% if $IsTest %>yes<% else %>no<% end_if %> <br>
+Is PROD: <% if $IsProd %>yes<% else %>no<% end_if %> <br>
+```
+
+in php:
+
+```
+Arillo\Utils\Env::is_dev();
+Arillo\Utils\Env::is_prod();
+Arillo\Utils\Env::is_test();
+```
+
