@@ -150,3 +150,17 @@ Arillo\Utils\Env::is_prod();
 Arillo\Utils\Env::is_test();
 ```
 
+### Arillo\Utils\PageHelper
+
+Helper for pages & templates functions.
+
+Adds `PageInstance` and `PageControllerInstance` template methods. Most helpfull in case there should be only one instance of a SiteTree subclass:
+
+```
+<%-- access a page by classname in templates --%>
+$PageInstance(SomeSiteTreeSubClassName).Title
+$PageInstance(SomeSiteTreeSubClassName).Link
+
+<%-- e.g. render a Form from a diffrent controller --%>
+$PageControllerInstance(SomeSiteTreeSubClassName).Form
+```
