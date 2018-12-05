@@ -1,6 +1,6 @@
 {
     "name": "arillo/silverstripe-utils",
-    "description": "Utils and utils for SilverStripe CMS",
+    "description": "Utils and helpers for SilverStripe CMS.",
     "type": "silverstripe-vendormodule",
     "homepage": "https://github.com/arillo/silverstripe-utils",
     "keywords": ["silverstripe", "utils", "utils"],
