@@ -41,6 +41,25 @@ SilverStripe\CMS\Model\SiteTree:
     - 'Arillo\Utils\FluentFilteredHelper'
 ```
 
+### Arillo\Utils\FluentHelper
+
+With `Arillo\Utils\FluentHelper::force_delete` you can improve UX in CMS while Page deletion. At the moment Fluent forces you to delete a page in each Locale, to remove it from SiteTree. Example usage:
+
+```
+<?php
+use SilverStripe\CMS\Model\SiteTree;
+use Arillo\Utils\FluentHelper;
+
+class Page extends SiteTree
+{
+    public function onBeforeDelete()
+    {
+        parent::onBeforeDelete();
+        FluentHelper::force_delete($this); // insert this
+    }
+}
+```
+
 ### Arillo\Utils\CMS
 
 Some unsorted functions.

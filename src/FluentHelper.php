@@ -17,6 +17,12 @@ use TractorCow\Fluent\Extension\FluentExtension;
  */
 class FluentHelper
 {
+    /**
+     * Deletes <TABLE>_Localised_Live and <TABLE>_Localised entries for a given record.
+     *
+     * @param  DataObject $record
+     * @return DataObject
+     */
     public static function force_delete(DataObject $record)
     {
         foreach ($record->getLocalisedTables() as $table => $value)
