@@ -2,7 +2,16 @@
 namespace Arillo\Utils;
 
 use TractorCow\Fluent\Model\Locale;
-use SilverStripe\ORM\DataExtension;
+
+use SilverStripe\ORM\{
+    DataObject,
+    DataExtension
+};
+
+use SilverStripe\Forms\{
+    FieldList,
+    CheckboxSetField
+};
 
 /**
  * Automatically addes fluent locales on object creation and deletes them
@@ -17,10 +26,50 @@ class FluentFilteredHelper extends DataExtension
 {
     protected $wasNew = false;
 
+    /**
+     * Replace locales grid field with a CheckboxSetField and adds it into main tab.
+     * Will display a warning in case no locales are set.
+     *
+     * @param  DataObject $record
+     * @param  FieldList  $fields
+     * @param  string     $insertAfter
+     * @return FieldList
+     */
+    public static function replace_locales_manager(
+        DataObject $record,
+        FieldList $fields,
+        string $insertAfter = 'Title'
+    ) {
+        $fields->removeByName('Locales');
+        $fields->insertAfter(
+            $insertAfter,
+            CheckboxSetField::create('FilteredLocales', 'Locales', Locale::get())
+                ->setDescription(
+                    !$record->FilteredLocales()->exists()
+                        ? AlertField::create(
+                            'NoFilteredLocalesInfo',
+                            _t(
+                                __CLASS__ . '.NoFilteredLocalesInfo',
+                                'Attention, no locales set! This entry is only visible if one or more locales are set.'
+                            ),
+                            'danger'
+                        )->forTemplate()
+                        : null
+                )
+        );
+
+        return $fields;
+    }
+
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
         $this->wasNew = !$this->owner->isInDB();
+    }
+
+    public function updateCMSFields(FieldList $fields)
+    {
+        self::replace_locales_manager($this->owner, $fields);
     }
 
     public function onAfterWrite()
