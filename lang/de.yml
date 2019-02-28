@@ -1,3 +1,4 @@
 de:
   Arillo\Utils\FluentFilteredHelper:
+    Locales: 'Verfügbarkeit'
     NoFilteredLocalesInfo: 'Achtung, keine Locales gesetzt! Dieser Eintrag ist erst sichtbar, wenn eine oder mehrere Locales gesetzt sind.'

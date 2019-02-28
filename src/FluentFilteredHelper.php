@@ -16,7 +16,7 @@ use SilverStripe\Forms\{
 /**
  * Automatically addes fluent locales on object creation and deletes them
  * on object deletion.
- * Should only be applied to objects using FlientFiltedExtension.
+ * Should only be applied to objects using FluentFiltedExtension.
  *
  * @package Arillo
  * @subpackage Utils
@@ -43,7 +43,11 @@ class FluentFilteredHelper extends DataExtension
         $fields->removeByName('Locales');
         $fields->insertAfter(
             $insertAfter,
-            CheckboxSetField::create('FilteredLocales', 'Locales', Locale::get())
+            CheckboxSetField::create(
+                'FilteredLocales',
+                _t(__CLASS__ . '.Locales', 'Availability'),
+                Locale::get()
+            )
                 ->setDescription(
                     !$record->FilteredLocales()->exists()
                         ? AlertField::create(
