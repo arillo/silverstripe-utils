@@ -21,16 +21,23 @@ class FluentHelper
      * Deletes <TABLE>_Localised_Live and <TABLE>_Localised entries for a given record.
      *
      * @param  DataObject $record
+     * @param  bool $deleteVersioned    shall versions entries also be deleted
      * @return DataObject
      */
-    public static function force_delete(DataObject $record)
-    {
+    public static function force_delete(
+        DataObject $record,
+        $deleteVersioned = true
+    ) {
         foreach ($record->getLocalisedTables() as $table => $value)
         {
             $tables = [
-                $table . '_' . FluentExtension::SUFFIX . '_Live',
                 $table . '_' . FluentExtension::SUFFIX,
             ];
+
+            if ($deleteVersioned)
+            {
+                $tables[] = $table . '_' . FluentExtension::SUFFIX . '_Live';
+            }
 
             foreach ($tables as $deleteTable)
             {
