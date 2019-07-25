@@ -40,7 +40,7 @@ class FluentFilteredHelper extends DataExtension
         FieldList $fields,
         string $insertAfter = 'Title'
     ) {
-        $fields->removeByName('Locales');
+        $fields->removeByName('FilteredLocales');
         $fields->insertAfter(
             $insertAfter,
             CheckboxSetField::create(
@@ -85,15 +85,6 @@ class FluentFilteredHelper extends DataExtension
             {
                 $this->owner->FilteredLocales()->add($locale);
             }
-        }
-    }
-
-    public function onAfterDelete()
-    {
-        parent::onAfterDelete();
-        foreach (Locale::getCached() as $locale)
-        {
-            $this->owner->FilteredLocales()->remove($locale);
         }
     }
 }

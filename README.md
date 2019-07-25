@@ -32,7 +32,7 @@ SilverStripe\CampaignAdmin\CampaignAdmin:
 
 ### Arillo\Utils\FluentFilteredHelper
 
-If you use `silverstripe-fluent` with `TractorCow\Fluent\Extension\FluentFilteredExtension` you can add `Arillo\Utils\FluentFilteredHelper` to your translated DataObject and it will attach all Locales on record creation and also deletes the related locale records on record deletion. In config, e.g. add:
+If you use `silverstripe-fluent` with `TractorCow\Fluent\Extension\FluentFilteredExtension` you can add `Arillo\Utils\FluentFilteredHelper` to your translated DataObject and it will attach all Locales on record creation. In config, e.g. add:
 
 ```
 SilverStripe\CMS\Model\SiteTree:
