@@ -24,6 +24,18 @@ use SilverStripe\Forms\{
  */
 class FluentFilteredHelper extends DataExtension
 {
+    /**
+     * Determine if we want to create all locale records on first save.
+     * @var boolean
+     */
+    private static $auto_create_locales = true;
+
+    /**
+     * Determine if we want to delete all locale records on delete.
+     * @var boolean
+     */
+    private static $auto_delete_locales = false;
+
     protected $wasNew = false;
 
     /**
@@ -79,11 +91,26 @@ class FluentFilteredHelper extends DataExtension
     public function onAfterWrite()
     {
         parent::onAfterWrite();
-        if ($this->wasNew)
-        {
+        // \SilverStripe\Dev\Debug::dump($this->owner->config()->auto_create_locales);
+        // die;
+        if ($this->owner->config()->auto_create_locales == true && $this->wasNew) {
             foreach (Locale::getCached() as $locale)
             {
                 $this->owner->FilteredLocales()->add($locale);
+            }
+        }
+    }
+
+    /**
+     * Automatic delete filtered locales
+     */
+    public function onAfterDelete()
+    {
+        parent::onAfterDelete();
+        if ($this->owner->config()->auto_delete_locales == true) {
+            foreach (Locale::getCached() as $locale)
+            {
+                $this->owner->FilteredLocales()->remove($locale);
             }
         }
     }

@@ -32,10 +32,15 @@ SilverStripe\CampaignAdmin\CampaignAdmin:
 
 ### Arillo\Utils\FluentFilteredHelper
 
-If you use `silverstripe-fluent` with `TractorCow\Fluent\Extension\FluentFilteredExtension` you can add `Arillo\Utils\FluentFilteredHelper` to your translated DataObject and it will attach all Locales on record creation. In config, e.g. add:
+If you use `silverstripe-fluent` with `TractorCow\Fluent\Extension\FluentFilteredExtension` you can add `Arillo\Utils\FluentFilteredHelper` to your translated DataObject and it will attach all Locales on record creation and deletes locale entries on record deletion. In config, e.g. add:
 
 ```
-SilverStripe\CMS\Model\SiteTree:
+MyDataObject:
+  # will create locale entries for this record on first save, default: true
+  auto_create_locales: true
+
+  # will delete locale entries on record deletion, default: false
+  auto_delete_locales: true
   extensions:
     - 'TractorCow\Fluent\Extension\FluentFilteredExtension'
     - 'Arillo\Utils\FluentFilteredHelper'
@@ -43,7 +48,7 @@ SilverStripe\CMS\Model\SiteTree:
 
 ### Arillo\Utils\FluentHelper
 
-With `Arillo\Utils\FluentHelper::force_delete` you can improve UX in CMS while Page deletion. At the moment Fluent forces you to delete a page in each Locale, to remove it from SiteTree. Example usage:
+With `Arillo\Utils\FluentHelper::force_delete` you can improve UX in CMS while record deletion. At the moment Fluent forces you to delete a page in each Locale, to remove it from SiteTree. Example usage:
 
 ```
 <?php
