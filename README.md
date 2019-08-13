@@ -107,7 +107,7 @@ class MyDataObject extends DataObject
 
 ### Arillo\Utils\AlertField
 
-Display a message in CMS (bootstrap alert style). E.g.:
+Display a message in CMS ([bootstrap alert style](https://v4-alpha.getbootstrap.com/components/alerts/)). E.g.:
 
 ```
 <?php
