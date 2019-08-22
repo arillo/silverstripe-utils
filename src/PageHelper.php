@@ -41,8 +41,7 @@ class PageHelper implements TemplateGlobalProvider
         $filter = [];
         if ($strict) $filter['ClassName'] = $pageType;
 
-        $page = $pageType::get()->filter($filter);
-        if ($page && $page->exists()) return $page->first();
+        if (class_exists($pageType) && $page = $pageType::get()->filter($filter) && $page->exists()) return $page->first();
 
         return null;
     }
