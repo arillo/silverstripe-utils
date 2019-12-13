@@ -1,0 +1,4 @@
+en:
+  Arillo\Utils\FluentFilteredHelper:
+    Locales: Availability
+    NoFilteredLocalesInfo: 'Attention, no locales set! This entry is only visible if one or more locales are set.'
