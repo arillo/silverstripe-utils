@@ -36,7 +36,7 @@ class FluentFilteredHelper extends DataExtension
      */
     private static $auto_delete_locales = false;
 
-    protected $wasNew = false;
+    protected $shouldAutoCreateLocales = false;
 
     /**
      * Replace locales grid field with a CheckboxSetField and adds it into main tab.
@@ -52,27 +52,35 @@ class FluentFilteredHelper extends DataExtension
         FieldList $fields,
         string $insertAfter = 'Title'
     ) {
+        
+        $checked = [];
+        if(!$record->ID && $record->config()->auto_create_locales){
+            $checked = Locale::get();
+        }
+        
         $fields->removeByName('FilteredLocales');
         $fields->insertAfter(
             $insertAfter,
-            CheckboxSetField::create(
+            $checkboxField = CheckboxSetField::create(
                 'FilteredLocales',
                 _t(__CLASS__ . '.Locales', 'Availability'),
-                Locale::get()
+                Locale::get(),
+                $checked
             )
-                ->setDescription(
-                    !$record->FilteredLocales()->exists()
-                        ? AlertField::create(
-                            'NoFilteredLocalesInfo',
-                            _t(
-                                __CLASS__ . '.NoFilteredLocalesInfo',
-                                'Attention, no locales set! This entry is only visible if one or more locales are set.'
-                            ),
-                            'danger'
-                        )->forTemplate()
-                        : null
-                )
         );
+
+        if(!count($checked) && !$record->FilteredLocales()->exists()){
+            $checkboxField->setDescription(
+                AlertField::create(
+                    'NoFilteredLocalesInfo',
+                    _t(
+                        __CLASS__ . '.NoFilteredLocalesInfo',
+                        'Attention, no locales set! This entry is only visible if one or more locales are set.'
+                    ),
+                    'danger'
+                )->forTemplate()
+            );
+        }
 
         return $fields;
     }
@@ -80,7 +88,9 @@ class FluentFilteredHelper extends DataExtension
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
-        $this->wasNew = !$this->owner->isInDB();
+        if(!isset($_POST['action_doSave'])){
+            $this->shouldAutoCreateLocales = true;
+        }
     }
 
     public function updateCMSFields(FieldList $fields)
@@ -91,9 +101,7 @@ class FluentFilteredHelper extends DataExtension
     public function onAfterWrite()
     {
         parent::onAfterWrite();
-        // \SilverStripe\Dev\Debug::dump($this->owner->config()->auto_create_locales);
-        // die;
-        if ($this->owner->config()->auto_create_locales == true && $this->wasNew) {
+        if ($this->owner->config()->auto_create_locales == true && $this->shouldAutoCreateLocales) {
             foreach (Locale::getCached() as $locale)
             {
                 $this->owner->FilteredLocales()->add($locale);
