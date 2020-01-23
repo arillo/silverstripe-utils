@@ -28,25 +28,27 @@ class FluentHelper
         DataObject $record,
         $deleteVersioned = true
     ) {
-        foreach ($record->getLocalisedTables() as $table => $value)
-        {
-            $tables = [
-                $table . '_' . FluentExtension::SUFFIX,
-            ];
-
-            if ($deleteVersioned)
+        if($record->hasMethod('getLocalisedTables')){
+            foreach ($record->getLocalisedTables() as $table => $value)
             {
-                $tables[] = $table . '_' . FluentExtension::SUFFIX . '_Live';
-            }
+                $tables = [
+                    $table . '_' . FluentExtension::SUFFIX,
+                ];
 
-            foreach ($tables as $deleteTable)
-            {
-                SQLDelete::create("\"{$deleteTable}\"")
-                    ->addWhere(["\"{$deleteTable}\".\"RecordID\"" => $record->ID])
-                    ->execute()
-                ;
+                if ($deleteVersioned)
+                {
+                    $tables[] = $table . '_' . FluentExtension::SUFFIX . '_Live';
+                }
+
+                foreach ($tables as $deleteTable)
+                {
+                    SQLDelete::create("\"{$deleteTable}\"")
+                        ->addWhere(["\"{$deleteTable}\".\"RecordID\"" => $record->ID])
+                        ->execute()
+                    ;
+                }
             }
+            return $record;
         }
-        return $record;
     }
 }
